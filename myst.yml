@@ -30,7 +30,17 @@ site:
     favicon: images/favicon.ico
     logo: images/logo.png
   nav:
-    - title: Open Science
-      url: https://openscience.gishub.org
-    - title: MyST
+    - title: Linkedin
+      url: https://www.linkedin.com/in/moyassin1/
+      - title: Youtube
+      url: https://www.youtube.com/@moeshyassin
+      - title: AIRC
+      url: https://airesearchcorp.org/
+      - title: MyST
       url: https://mystmd.org
+      - title: Open Science
+      url: https://openscience.gishub.org/
+
+      
+
+      
