@@ -5,7 +5,8 @@
 This is my personal website. All views and openions are personal and do not represent any other entity. 
 
 
-> **Quote** Everyone can be great because everyone can serve. -MLK Jr.
+> **Quote** 
+Everyone can be great because everyone can serve. -MLK Jr.
 
 The goals of this website is to create online presence where I can share professional views an opinions relatd to topics I care about. This is also a great opportunity to share with clients or employers to better understand my areas of expertise. Thanks for looking!
 
