@@ -1,19 +1,17 @@
 ---
-title: How to MyST, without being mystified 🧙
-subject: Tutorial
-subtitle: Evolve your markdown documents into structured data
-short_title: How to MyST
+title: Geospatial Data Science 🗺
+subject:  Story Map
+subtitle: A case study in modern geodatabase
+short_title: Geospatial Data Science
 authors:
-  - name: Rowan Cockett
+  - name: Mohamad Yassin
     affiliations:
-      - Executable Books
-      - Curvenote
-    orcid: 0000-0002-7859-8394
-    email: rowan@curvenote.com
+      - AIRC
+    email: mohamadyassin.us@gmail.com
 license: CC-BY-4.0
-keywords: myst, markdown, open-science
+keywords: geostpatial, data science, database, gis
 abstract: |
-  We introduce, a set of open-source, community-driven tools for MyST Markdown ([myst.tools](https://myst.tools)) designed for scientific communication, including a powerful authoring framework that supports blogs, online books, scientific papers, reports and journals articles.
+  This is a story map about a school case study for the modern use of geospatial database. This article presents a concenptual solution for creating geospatial apps for a theme park.
 kernelspec:
   name: python3
   display_name: Python 3
@@ -24,25 +22,32 @@ exports:
     article_type: Report
 ---
 
-# How to MyST, without being mystified 🧙
+# Geospatial Data Science 🗺
 
 ## Background
 
-Scientific communication today is designed around print documents and pay-walled access to content. Over the last decade, the open-science movement has accelerated the use of pre-print services and data archives that are vastly improving the accessibility of scientific content. However, these systems are not designed for communicating modern scientific outputs, which encompasses **so much more** than a paper-centric model of the scholarly literature.
+How did we get here?
+Geospatial isn’t only about geographic sciences. But also, about data and information technologies. Especially ever since the introduction of the global navigation satellite system (GNSS). However, both the geospatial and informational were either limited or separated for a long time. GPS technologies accelerated quickly over the past few decades. But it wasn’t an easy pursuit. It dates back to when, in order to satisfy their argument with the English about the shape of the Earth, the French sent out two expeditions to make spatial measurements. 
 
-> We believe how we share and communicate scientific knowledge should evolve past the status quo of print-based publishing and all the limitations of paper.
+The French Cassini’s postulated that the Earth was elongated. While Isaac Newton deduced that it was flattened. In 1735 La Condamine and Bouguer went to what was then called Peru -in modern day Ecuador- to perform a measurement on a piece of a meridian. They spent nine years there. Then, in 1736, De Maupertuis spent a year and half in what which was then called Lapland in modern day Finland to do a similar land survey measurement. 
 
-The communication and collaboration tools that we are building in the Project Jupyter are built to follow the FORCE11 recommendations [](https://doi.org/10.4230/DagMan.1.1.41). Specifically:
+Contrary to what was originally anticipated. The French survey measurements affirmed that the Earth was indeed flattened -as Newton originally anticipated with mathematic and without ever leaving his desk. Those were the early expeditions that initiated Earth measurement sciences as we have them today. 
 
-1. rethink the unit and form of scholarly publication;
-2. develop tools and technologies to better support the scholarly lifecycle; and
-3. add data, software, and workflows as first-class research objects.
+In 1807 President Thomas Jefferson, who was a surveyor himself, created the Survey of the Coast. Which included geodetic and astronomical survey tools to measure the Earth. Most of these tools were imported from Europe until the 1890s. The Coast Survey conducted monumental work across the U.S. collecting millions of data points on the ground in order to build complex mathematical models of the Earth. This later became the mapping system for the United States. Much of the work that these brave surveyors did over the past few decades laid out the groundwork for the evolution of GPS. In 1960 the U.S. Cost Survey figured out a way to use the Echo 1 satellite for global measurements of the earth. This initiated the development of the global satellite navigation network between 1964-1973. In 1970 the Coast Survey became the National Geodetic Survey (NGS) under NOAA. 
 
-By bringing professional, high-quality tools for science communication into the research lifecycle, we believe we can improve the collection and preservation of scholarly metadata (citations, cross-references, annotations, etc.) as well as open up new ways to communicate science with interactive figures & equations, computation, and reactivity.
+The high costs associated with satellites and mapping systems limited their access to government and military for a long time. But technological and industrial revolutions that have flattened the way over the past few decades lowered their barriers to entry. Anyone today can make geospatial measurements and conduct complex statistical and mathematical methods of the entire world without leaving his or her desk. Just like I'm about to demonstrate for my case study.
 
-The tools that are being built by the Project Jupyter are focused on introducing a new Markup language, MyST (Markedly Structured Text), that works seamlessly with the Jupyter community to enhance and promote a new path to document creation and publishing for next-generation scientific textbooks, blogs, and lectures. Our team is currently supported by the [Sloan Foundation](https://sloan.org), ([Grant #9231](https://sloan.org/grant-detail/9231)).
+I copied all of the above information about the history of geodesy and surveying from video lectures by Dave Doyle, NGS, Chief Geodetic Surveyor (Retired). I included all the links to his awesome video lectures at the end if this page you're interested to learn a ton more.  
 
-MyST enables rich content generation and is a powerful format for scientific and technical communication. JupyterBook uses MyST and has broad adoption in publishing tutorials and educational content focused around Jupyter Notebooks.
+
+Geodatabase Project
+The objective of my assignment was to build a geodatabase and provide a useful application/service. I decided to find an open area near where I live to conduct a survey. So, I went to SeaWorld San Diego. What a great place to be. I created a geodatabase and visualized a map that can help both visitors and park management.
+
+I was able to collect seven feature layers. Then I used an imagery web map from Esri with a WGS84 Web Mercator datum and PCS for my base map. Especially since the my map is dependant on GPS. For the geodatabase creation and web maps I used ArcGIS Pro and ArcGIS Online. 
+
+In my case study, I demonstrated the following: concepts of the spatial and temporal aspects of GIS; cartography and symbology; geodatabase design and creation; network data; data collection; and data science and AI applications.
+
+Please note that all of the data included in my project was either publicly collected or fictional for the purposes of demonstration only. 
 
 > The components behind Jupyter Book are downloaded 30,000 times a day, with 750K downloads last month.
 
@@ -101,6 +106,7 @@ One of the common forms of scientific communication today is through PDF documen
 import leafmap.foliumap as leafmap
 
 m = leafmap.Map(center=[40, -100], zoom=4)
+m.add_geojson('https://github.com/mohamadyassin/myst_airc/releases/download/untagged-aa42c9cb0bf2eaf09376/FoodandBeverage.geojson', layer_name='fnb')
 m
 ```
 
