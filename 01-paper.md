@@ -104,6 +104,7 @@ One of the common forms of scientific communication today is through PDF documen
 
 ```{code-cell}
 import leafmap.foliumap as leafmap
+import geopandas as gpd
 
 url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FoodandBeverage.geojson"
 m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
