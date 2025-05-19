@@ -105,8 +105,20 @@ One of the common forms of scientific communication today is through PDF documen
 ```{code-cell}
 import leafmap.foliumap as leafmap
 
-m = leafmap.Map(center=[40, -100], zoom=4)
-m.add_geojson('https://github.com/mohamadyassin/myst_airc/releases/download/untagged-aa42c9cb0bf2eaf09376/FoodandBeverage.geojson', layer_name='fnb')
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FoodandBeverage.geojson"
+m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
+point_style = {
+    "radius": 5,
+    "color": "red",
+    "fillOpacity": 0.8,
+    "fillColor": "blue",
+    "weight": 3,
+}
+hover_style = {"fillColor": "yellow", "fillOpacity": 1.0}
+m.add_geojson(
+    url, point_style=point_style, hover_style=hover_style, layer_name="FnB"
+)
+
 m
 ```
 
