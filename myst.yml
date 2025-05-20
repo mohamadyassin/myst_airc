@@ -21,7 +21,7 @@ project:
         - file: chapters/chapter-02.ipynb
 
   numbering:
-    heading_1: true
+    heading_1: false
     heading_2: true
 site:
   template: book-theme
