@@ -26,7 +26,7 @@ exports:
 
 ## Background
 
-How did we get here?
+### How did we get here?
 Geospatial isn’t only about geographic sciences. But also, about data and information technologies. Especially ever since the introduction of the global navigation satellite system (GNSS). However, both the geospatial and informational were either limited or separated for a long time. GPS technologies accelerated quickly over the past few decades. But it wasn’t an easy pursuit. It dates back to when, in order to satisfy their argument with the English about the shape of the Earth, the French sent out two expeditions to make spatial measurements. 
 
 The French Cassini’s postulated that the Earth was elongated. While Isaac Newton deduced that it was flattened. In 1735 La Condamine and Bouguer went to what was then called Peru -in modern day Ecuador- to perform a measurement on a piece of a meridian. They spent nine years there. Then, in 1736, De Maupertuis spent a year and half in what which was then called Lapland in modern day Finland to do a similar land survey measurement. 
@@ -40,69 +40,137 @@ The high costs associated with satellites and mapping systems limited their acce
 I copied all of the above information about the history of geodesy and surveying from video lectures by Dave Doyle, NGS, Chief Geodetic Surveyor (Retired). I included all the links to his awesome video lectures at the end if this page you're interested to learn a ton more.  
 
 
-Geodatabase Project
+### Geodatabase Project
 The objective of my assignment was to build a geodatabase and provide a useful application/service. I decided to find an open area near where I live to conduct a survey. So, I went to SeaWorld San Diego. What a great place to be. I created a geodatabase and visualized a map that can help both visitors and park management.
 
 I was able to collect seven feature layers. Then I used an imagery web map from Esri with a WGS84 Web Mercator datum and PCS for my base map. Especially since the my map is dependant on GPS. For the geodatabase creation and web maps I used ArcGIS Pro and ArcGIS Online. 
 
 In my case study, I demonstrated the following: concepts of the spatial and temporal aspects of GIS; cartography and symbology; geodatabase design and creation; network data; data collection; and data science and AI applications.
 
-Please note that all of the data included in my project was either publicly collected or fictional for the purposes of demonstration only. 
+ 
 
-> The components behind Jupyter Book are downloaded 30,000 times a day, with 750K downloads last month.
+> Please note that all of the data included in my project was either publicly collected or fictional for the purposes of demonstration only.
 
-The current toolchain used by [JupyterBook] is based on [Sphinx], which is an open-source documentation system used in many software projects, especially in the Python ecosystem. `mystjs` is a similar tool to [Sphinx], however, designed specifically for scientific communication. In addition to building websites, `mystjs` can also help you create scientific PDFs, Microsoft Word documents, and JATS XML (used in scientific publishing).
+## Geodatabase
 
-`mystjs` uses existing, modern web-frameworks in place of the [Sphinx] build system. These tools come out-of-the-box with prefetching for faster navigation, smaller network payloads through modern web-bundlers, image optimization, partial-page refresh through single-page application. Many of these features, performance and accessibility improvements are difficult, if not impossible, to create inside of the [Sphinx] build system.
+### Base Map
 
-In 2022, the Executable Books team started work to document the specification behind the markup language, called [myst-spec](https://github.com/jupyter-book/myst-spec), this work has enabled other tools and implementations in the scientific ecosystem to build on MyST (e.g. [scientific authoring tools](https://curvenote.com/for/writing), and [documentation systems](https://blog.readthedocs.com/jupyter-book-read-the-docs/)).
+I used an imagery basemap from Esri with WGS84 web mercator for the coordinate and projection systems. Image resolution is 0.3 meters. 
 
-The `mystjs` ecosystem was developed as a collaboration between [Curvenote], [2i2c] and the [ExecutableBooks] team. The initial version of `mystjs` was originally release by [Curvenote] as the [Curvenote CLI](https://curvenote.com/docs/cli) under the MIT license, and transferred to the [ExecutableBooks] team in October 2022. The goal of the project is to enable the same rich content and authoring experiences that [Sphinx] allows for software documentation, with a focus on web-first technologies (Javascript), interactivity, accessibility, scientific references (e.g. DOIs and other persistent IDs), professional PDF outputs, and JATS XML documents for scientific archiving.
+Beyond the base map, working with feature layers is similar to Object Oriented Programming (OOP). Each feature is a class with its own attributes and methods. The attributes are what goes into the dataset for each feature. I’m not going into any methods in my case study because I’m focusing on building the geodatabase. 
 
-## MyST Project
+So, I defined the basic attributes for each of the following seven feature classes. I also used subtypes and domains examples to classify the data and restrict data entry errors. I included the metadata for a few attributes for each class in the side panel below. I also included domains and subtypes when available. Please scroll down to see them.
 
-In this paper we introduce `mystjs`, which allows the popular MyST Markdown syntax to be run directly in a web browser, opening up new workflows for components to be used in web-based editors, [directly in Jupyter](https://github.com/jupyter-book/jupyterlab-myst) and in JupyterLite. The libraries work with current MyST Markdown documents/projects and can export to [LaTeX/PDF](https://myst.tools/docs/mystjs/creating-pdf-documents), [Microsoft Word](https://myst.tools/docs/mystjs/creating-word-documents) and [JATS](https://myst.tools/docs/mystjs/creating-jats-xml) as well as multiple website templates using a [modern](https://myst.tools/docs/mystjs/accessibility-and-performance) React-based renderer. There are currently over 400 scientific journals that are supported through [templates](https://github.com/myst-templates), with [new LaTeX templates](https://myst.tools/docs/jtex/create-a-latex-template) that can be added easily using a Jinja-based templating package, called [jtex](https://myst.tools/docs/jtex).
+Please note that all of the data and attributes were fictional. None of the information is accurate or operational. It is intended only for demonstration purposes.
 
-In our paper we will give an overview of the MyST ecosystem, how to use MyST tools in conjunction with existing Jupyter Notebooks, markdown documents, and JupyterBooks to create professional PDFs and interactive websites, books, blogs and scientific articles. We give special attention to the additions around structured data, standards in publishing (e.g. efforts in representing Notebooks as JATS XML), rich [frontmatter](https://myst.tools/docs/mystjs/frontmatter) and bringing [cross-references](https://myst.tools/docs/mystjs/cross-references) and [persistent IDs](https://myst.tools/docs/mystjs/external-references) to life with interactive hover-tooltips ([ORCID, RoR](https://myst.tools/docs/mystjs/frontmatter), [RRIDs](https://myst.tools/docs/mystjs/external-references#research-resource-identifiers), [DOIs](https://myst.tools/docs/mystjs/citations), [intersphinx](https://myst.tools/docs/mystjs/external-references#intersphinx), [wikipedia](https://myst.tools/docs/mystjs/external-references#wikipedia-links), [JATS](https://myst.tools/docs/mystjs/typography), [GitHub code](https://myst.tools/docs/mystjs/external-references#github-links), and more!). This rich metadata and structured content can be used directly to improve science communication both through self-publishing books, blogs, and lab websites — as well as journals that incorporate Jupyter Notebooks.
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
 
-## Features of MyST
+m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
+m.add_basemap("Esri.WorldImagery")
+m
+```
 
-MyST is focused on scientific writing, and ensuring that citations are first class both for writing and for reading (see [](#citations)).
+### Walkways Network
 
-:::{figure} ./images/citations.png
-:label: citations
-Citations are rendered with a popup directly inline.
-:::
+It took me about 2 hours to walk the whole park and collect longitude and latitude coordinates for my feature classes. I also used Field Maps from Esri briefly to help draw features in the field. 
 
-MyST aims to show as much information in context as possible, for example, [](#equations) shows a reading experience for a referenced equation: you can immediately **click on the reference**, see the equation, all without losing any context -- ultimately saving you time. [](doi:10.1145/3411764.3445648) found that these ideas both improved the overall reading experience of articles as well as allowed researchers to answer questions about an article **26% faster** when compared to a traditional PDF!
+Furthermore, I spent a few hours on my base map to manually re-draw a walkway network and nodes. Neither horizontal nor vertical accuracy were important for my case study. I probably was able to attain 12-17 feet in general. 
 
-:::{figure} ./images/equations.gif
-:label: equations
-In context cross-references improve the reading experience.
-:::
+For my walkways network, I ended up with 72 individual walkways -which were designed to look like the maze of an amusement park. 
 
-One of the important underlying goals of practicing reproducibility, sharing more of the methods and data behind a scientific work so that other researchers can both verify as well as build upon your findings. One of the exciting ways to pull for reproducibility is to make documents directly linked to data and computation! In [](#interactive), we are showing outputs from a Jupyter Notebook directly part of the published scientific narrative.
+In ArcGIS you can configure your network dataset properties for cost functions based on length, time or other attributes. You can also add rules, constraints, and directions, amongst other functions for network traffic  control. 
 
-:::{figure} ./images/interactive.gif
-:label: interactive
-Embedding data, interactivity and computation into a MyST article.
-:::
+Network datasets usually have many attributes to define travel rules. My walkways feature class only included the geometry  with no further attributes for this case study. Further attribute definitions and properties configurations can be performed at a later time if we desire to create applications. 
 
-To drive all of these features, the contents of a MyST document needs to be well defined. This is critical for powering interactive hovers, linked citations, and compatibility with scientific publishing standards like the Journal Article Metadata Tag Suite (JATS). We have an emerging specification for MyST, [`myst-spec`](https://spec.myst.tools), that aims to capture this information and transform it between many different formats, like PDF, Word, JSON, and JATS XML ([](#structured-data)). This specification is arrived at through a community-centric MyST Enhancement Proposal ([MEP](https://compass.executablebooks.org/en/latest/meps.html)) process.
+I completed a  Network Analyst tutorial in ArcGIS Pro  before creating my own network dataset. In the tutorial you can look at the data attributes which can help decide which ones to choose when creating your own road or walkway network based on a predefined objective. Or you can look at smart city networks for a perspective about network datasets and systems in general.  
 
-:::{figure} ./images/structured-data.gif
-:label: structured-data
-The data behind MyST is **structured**, which means we can transform it into many different document types and use it to power all sorts of exciting features!
-:::
+#### Metadata 
+Field Name, Data Type, Numeric Format, Domain, Description
 
-One of the common forms of scientific communication today is through PDF documents. MyST has excellent support for creating PDF documents, using a data-driven templating library called `jtex`. The document in Figure 5 was created using MyST!
 
-![](./images/pdf-two-column.png)
-**Figure 5**: A PDF rendering through MyST.
+- OBJECTID, Object ID, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Polyline geometry zm
+
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+walkways = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+walkways = gpd.read_file(walkways)
+if walkways.crs != "EPSG:3857":
+    walkways = walkways.to_crs(epsg=3857)
+
+m = walkways.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+m
+```
+
+### Nodes
+For my walkway network to perform properly if I wanted to create a direction app, I'd need to setup my roads based on the number of junctions in the network. 
+
+There's a tool in ArcGIS Pro that will create the network dataset for you.  It includes a separate junction dataset by default. The junctions help with analyzing directions or finding best routes in a network. I created this nodes feature class manually just for visual purposes for now. 
+
+I ended up with 55 junctions and dead ends. So, in short: my network has 72 walkways and 47 turns. Inside the area of approximately a square quarter mile. 
+
+
+#### Metadata
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Point
+
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+m
+```
+
 
 ## Map demo
 
 ```{code-cell}
+:tags: ["hide-input"]
 import leafmap.foliumap as leafmap
 import geopandas as gpd
 

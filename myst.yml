@@ -22,7 +22,7 @@ project:
 
   numbering:
     heading_1: false
-    heading_2: true
+    heading_2: false
 site:
   template: book-theme
   options:
