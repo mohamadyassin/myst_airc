@@ -66,7 +66,7 @@ Please note that all of the data and attributes were fictional. None of the info
 ```{code-cell}
 :tags: ["hide-input"]
 import geopandas as gpd
-import folium
+import leafmap
 
 m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
 m.add_basemap("Esri.WorldImagery")
