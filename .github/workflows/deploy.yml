@@ -43,7 +43,7 @@ jobs:
       - name: Build HTML Assets
         run: myst build --html --execute
       - name: Add CNAME for custom domain
-        run: echo "www.mohamadyassin.github.io" > _build/html/CNAME
+        run: echo "www.mohamadyassin.com" > _build/html/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
