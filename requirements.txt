@@ -13,3 +13,4 @@ ipykernel
 
 # Mapping tools
 leafmap
+mapclassify
