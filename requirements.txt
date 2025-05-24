@@ -5,6 +5,7 @@ geopandas
 folium
 altair
 vega_datasets
+ipywidgets
 
 # Jupyter and MyST
 jupyterlab
