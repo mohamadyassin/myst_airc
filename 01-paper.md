@@ -66,10 +66,19 @@ Please note that all of the data and attributes were fictional. None of the info
 ```{code-cell}
 :tags: ["hide-input"]
 import geopandas as gpd
-import leafmap
+import folium
 
-m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
-m.add_basemap("Esri.WorldImagery")
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 0.1, 'fillOpacity': 0.1},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
 m
 ```
 
@@ -165,31 +174,526 @@ nodes.explore(m=m,
 #border: 2px solid black; background-color: white;
 m
 ```
+### Points Of Interest (PoI) 
+One of the first things visitors need to know in order to orient themselves are PoI. 
+
+The PoI is a dataset that includes four feature subtypes. 
+
+Vehicle traffic locations. Which include driving through the tolls into the large parking lots and the disabled and VIP parking areas symbolized near the park entrance. 
+Points that indicate customer service interactions: Reservations, Sea Pixels, and Guest Services. 
+Landmark points: park entrance and the Skyride Tower.
+The two smoking areas. 
+Subtype classification was used for symbology purposes in my case study. But this can also be used for operationalizing your data. 
+
+Each of the four different subtypes  I defined can include a unique temporal dataset associated with it. For example, the vehicle traffic feature can include daily vehicle log information attached to them (see my survey example in the next section). 
 
 
-## Map demo
+#### Metadata
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Point
+
+- Name, Text, NA, NA, length 55
+
+- Description, Text, NA, NA, length 500
+
+- ID, Short, Numeric, NA, NA, Rank/Index
+
+- *Type, Short, Numeric, NA, 0 Landmarks 1 Vehicle Traffic 2 Customer Service 3 Smoking Area
+
+*Subtype
 
 ```{code-cell}
 :tags: ["hide-input"]
-import leafmap.foliumap as leafmap
 import geopandas as gpd
+import folium
 
-url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FoodandBeverage.geojson"
-m = leafmap.Map(center=[32.7658, -117.2264], zoom=17)
-point_style = {
-    "radius": 5,
-    "color": "red",
-    "fillOpacity": 0.8,
-    "fillColor": "blue",
-    "weight": 3,
-}
-hover_style = {"fillColor": "yellow", "fillOpacity": 1.0}
-m.add_geojson(
-    url, point_style=point_style, hover_style=hover_style, layer_name="FnB"
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:black; border: 2px solid hotpink; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: white; background-color:purple; border: 2px solid green; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
 )
 
 m
 ```
+
+### Stadiums and Encounters (Experiences)
+Stadiums and encounters are at the core of SeaWorld San Diego. They include entertainment and education experiences for all ages. You can see on the map how they are strategically distributed across the entire park. 
+
+Experiences polygons were created for visual aid. But we can also look at them from a spatio-temporal perspective. This is one of the smartest and most widely used applications for GIS.  
+
+The data can take a temporal aspect to measure the change. Instead of a passive point or area in space. We can measure the change in the non-spatial attributes. We can embed sensors, cameras, or any other method to collect data which also has spatial coordinates.
+
+For instance, the zoological department can install sensors to or manually enter data into the geodatabase to monitor animals, and to measure temperatures, or health and safety indicators for the welfare of their animals. 
+
+These attributes can be updated as frequently as desired. This is similar to what any web app database con do. But the spatial (geometry) attributes can help us further analyze or relate spatial phenomenon or analysis to our data. 
+
+
+#### Metadata
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Point geometry
+
+- Name, Text, NA, NA, Length 25
+
+- Type, Text, NA, NA, Length 25
+
+- Description, Text, NA, NA, Length 400
+- Duration, Text, NA, NA, Length 25
+
+- WaitTime, Text, NA, NA, Length 25
+
+- VIP, Text, NA, NA, VIPDom, Length 3
+
+- *TypeCode, Short, Numeric, TypeDom, Three codes 1 Presentation 2 Event 3 Encounter
+
+*Subtype
+
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:blue; border: 2px solid red; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: yellow; background-color:green; border: 3px solid purple; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+events = "https://github.com/mohamadyassin/myst_airc/releases/download/data/StadiumsandEncounters.geojson"
+events = gpd.read_file(events)
+if events.crs != "EPSG:3857":
+    events = events.to_crs(epsg=3857)
+
+events.explore(m=m,
+    style_kwds={"color": "pink", "weight": 3, "fill_opacity": 0.3},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+
+m
+```
+
+### Bathrooms
+One of the most frequent questions asked by visitors: "where's the bathroom?" 
+
+I counted 11 bathrooms but I believe that there are more. I bet that you can find a one easily within a short distance when visiting the park.
+
+There aren't a whole lot of attributes for this feature class in my database. But, this depends on the objective of you feature class.
+
+For my case it was just for symbology and wayfinding. But it can also be operationalized with a temporal aspect. For example, we can add date and cleaning attributes to be updated 4 time per day for each location.  We can also plug cleaning supplies information into our attributes.
+
+
+#### Metadata 
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Point geometry
+
+- ID, Short, Numeric, NA, NA, Rank ID proximity based
+
+- Type, Text, NA, NA, Default bathroom
+
+
+```{code}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+
+
+
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:blue; border: 2px solid red; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: yellow; background-color:green; border: 3px solid purple; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+events = "https://github.com/mohamadyassin/myst_airc/releases/download/data/StadiumsandEncounters.geojson"
+events = gpd.read_file(events)
+if events.crs != "EPSG:3857":
+    events = events.to_crs(epsg=3857)
+
+events.explore(m=m,
+    style_kwds={"color": "pink", "weight": 3, "fill_opacity": 0.3},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+restroom = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Restrooms.geojson"
+restroom = gpd.read_file(restroom)
+if restroom.crs != "EPSG:3857":
+    restroom = restroom.to_crs(epsg=3857)
+
+restroom.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-restroom" style="color: black; background-color:blue; border: 3px solid blue; font-size:12px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+
+m
+```
+
+### Rides
+The rides had an interesting design. They were distributed along horizontal line bound SE-NW. 
+
+I counted 11 rides. And I was able to create a template for a static display of ride information and attributes. 
+
+The same information can also be dynamic in a web app. And the attributes can be edited and updated as necessary. 
+
+The attributes were arbitrarily created to help demonstrate how to create a classification system in a web map to aid visitors in making decisions for which rides they'd want to visit first.
+
+
+#### Metadata
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, Numeric, NA, Global ID
+
+- Shape, Geometric, NA, NA, Point Geometry z m
+
+- ID, Short, Numeric, NA, NA, Rank ID proximity based
+
+- Name, Text, NA, NA, Ride name length 255
+
+- Description, Text, NA, NA, Length 450
+
+- AgeGroup, Text, NA, AgeDom, Three groups: Kids Adults/Kids Adults -Adults=12 yo or above
+
+- AgeGroupType, Short, Numeric, NA, Three types 1 2 3
+
+- AverageTime, Text, NA, NA, Length 25
+
+- AgeTimeType, Short, Numeric, NA, Three types 1 2 3
+
+```{code}
+:tags: ["hide-input"]
+
+
+import leafmap.foliumap as leafmap
+
+m = leafmap.Map(center=[40, -100], zoom=4)
+m
+```
+### Food & Beverage (F&B)
+Walking the whole park isn't going to be easy without stopping for food. SeaWorld has a lot of options around nearly every junction. 
+
+The F&B feature class was created for visualizing and wayfinding for this case study. However, I created some basic attributes to help visitors narrow down their F&B choices based on price and vegetarian food options for example. This feature class can also be operationalized for whatever reason with temporal data. 
+
+
+#### Metadata
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, Numeric, NA, NA, Global ID
+
+- Shape, Geometry, NA, NA, Point Geometry z m
+
+- Name, Text, NA, NA, Name field
+
+- Description, Text, NA, NA, Length 45
+
+- ID, Short, Numeric, NA, NA, Rank ID proximity based
+
+- Type, Text, NA, NA, Three types snack alcohol food
+
+- TypeCode, Short, Numeric, NA, Three codes 1 2 3
+
+- Price Range, Text, NA, NA, Four price ranges: $5-10 $12 $10-15 $15-25
+
+- PriceType, Short, Numeric, NA, Three types 1 2 3
+
+- Veg, Text, NA, NA, Two type codes 00-nonvegetarian 01-vegetarian
+
+```{code}
+:tags: ["hide-input"]
+
+
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+
+events = "https://github.com/mohamadyassin/myst_airc/releases/download/data/StadiumsandEncounters.geojson"
+events = gpd.read_file(events)
+if events.crs != "EPSG:3857":
+    events = events.to_crs(epsg=3857)
+
+events.explore(m=m,
+    style_kwds={"color": "pink", "weight": 3, "fill_opacity": 0.3},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+fnb = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FoodandBeverage.geojson"
+fnb = gpd.read_file(fnb)
+if fnb.crs != "EPSG:3857":
+    fnb = fnb.to_crs(epsg=3857)
+
+
+fnb.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa fa-cutlery" style="color:yellow; background-color:green; border: 3px solid blue;  font-size:12px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+
+m
+```
+
+Spatio-Temporal Example
+
+Vehicle Pass Form
+Usually at parks or campuses, they have limited access to vehicle parking for supplier and contractors. Each has a mechanism to enforce vehicle traffic. 
+
+I created a smart survey for my geodatabase using Survey123 from Esri. This survey tracks both the agent device location and parking/destination location. Through this app, park agents can issue vehicle passes and capture live information directly in the cloud. 
+
+Then, we can georeference destination locations for real-time visualization. Or we can setup rules to limit issuing vehicle passes for each area based on capacity for example. Notice the unique attributes associated with particular parking locations as you can see in the below video demonstration. 
+
+This survey can be accessed through any smart device using a web browser without the need for registering an account. So, it's very easy to setup and implement. It automatically captures the location of the agent device, date, and time.  It also has domains for error mitigation. 
+
+
+Link: 
+https://arcg.is/1vnq5y1
+
+
+QR code:
+
+
+## Code blocks
+
+```{code}
+:tags: ["hide-input"]
+
+
+import leafmap.foliumap as leafmap
+
+m = leafmap.Map(center=[40, -100], zoom=4)
+m
+```
+
+
+
 
 ## Code blocks
 
