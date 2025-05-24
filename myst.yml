@@ -10,12 +10,12 @@ project:
   # authors: []
   github: https://github.com/mohamadyassin/myst_airc
 
-# ✅ Add this block below
-launch_buttons:
-  binderhub_url: "https://mybinder.org"
-  notebook_interface: "jupyterlab"  # or "classic"
-  # Optional: specify the branch if not "main"
-  # branch: main
+  # ✅ Add this block below
+  launch_buttons:
+    binderhub_url: "https://mybinder.org"
+    notebook_interface: "jupyterlab"  # or "classic"
+    # Optional: specify the branch if not "main"
+    # branch: main
 
   # To autogenerate a Table of Contents, run "myst init --write-toc"
   toc:
