@@ -23,6 +23,7 @@ project:
     - file: README.md
     - file: 01-paper.md
     - file: 02-notebook.ipynb
+    - file: 03-tsunami-awareness.md
     - title: Geospatial
       children:
         - file: chapters/chapter-01.ipynb

@@ -439,11 +439,6 @@ m = gdf.explore(
     tiles="Esri.WorldImagery",
     zoom_start=17  
 )
-#border: 2px solid black; background-color: white;
-
-
-
-
 
 poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
 poi = gpd.read_file(poi)
