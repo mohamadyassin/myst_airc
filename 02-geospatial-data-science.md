@@ -58,6 +58,25 @@ This project covered:
 - CRS: WGS84 Web Mercator
 - Resolution: 0.3 meters
 
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 0.1, 'fillOpacity': 0.1},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+m
+```
+
 ### Feature Layers Overview
 
 Each feature is treated as a class (Object-Oriented concept) with structured attributes. Metadata is summarized below.
@@ -84,6 +103,24 @@ Each feature is treated as a class (Object-Oriented concept) with structured att
 | OBJECTID   | Object ID | Unique Global ID       |
 | Shape      | Geometry  | Polyline geometry (ZM) |
 
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+walkways = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+walkways = gpd.read_file(walkways)
+if walkways.crs != "EPSG:3857":
+    walkways = walkways.to_crs(epsg=3857)
+
+m = walkways.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+m
+```
 ---
 
 ## Nodes
@@ -97,6 +134,42 @@ Created manually for visualizing junctions.
 | OBJECTID   | Object ID | Global ID           |
 | Shape      | Geometry  | Point geometry      |
 
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+m
+```
 ---
 
 ## Points of Interest (POIs)
@@ -117,6 +190,82 @@ Classified into 4 subtypes:
 | ID         | Short  | Rank/index                             |
 | *Type*     | Short  | Subtype: 0=Landmark, 1=Vehicle, etc.   |
 
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+#border: 2px solid black; background-color: white;
+
+
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:black; border: 2px solid hotpink; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: white; background-color:purple; border: 2px solid green; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+m
+```
 ---
 
 ## Stadiums and Encounters
@@ -133,9 +282,214 @@ Classified into 4 subtypes:
 | Duration   | Text   | Show length            |
 | VIP        | Text   | Domain-based           |
 
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:blue; border: 2px solid red; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: yellow; background-color:green; border: 3px solid purple; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+events = "https://github.com/mohamadyassin/myst_airc/releases/download/data/StadiumsandEncounters.geojson"
+events = gpd.read_file(events)
+if events.crs != "EPSG:3857":
+    events = events.to_crs(epsg=3857)
+
+events.explore(m=m,
+    style_kwds={"color": "pink", "weight": 3, "fill_opacity": 0.3},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,           # Adjust the radius as needed
+        "fill": True,          # Enable filling
+        "fillColor": "yellow", # Set fill color to bright yellow
+        "color": "red",      # Set outline color to red
+        "weight": 2,          # Adjust outline width as needed
+    },
+    name="Your Points Layer", # Name for the layer controltiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+
+m
+```
+---
+
+
+
 ---
 
 ## Bathrooms
+
+One of the most frequent questions asked by visitors: "where's the bathroom?" 
+
+I counted 11 bathrooms but I believe that there are more. I bet that you can find a one easily within a short distance when visiting the park.
+
+There aren't a whole lot of attributes for this feature class in my database. But, this depends on the objective of you feature class.
+
+For my case it was just for symbology and wayfinding. But it can also be operationalized with a temporal aspect. For example, we can add date and cleaning attributes to be updated 4 time per day for each location.  We can also plug cleaning supplies information into our attributes.
+
+### Metadata 
+
+Field Name, Data Type, Numeric Format, Domain, Description
+
+- OBJECTID, Object ID, NA, NA, Global ID  
+- Shape, Geometry, NA, NA, Point geometry  
+- ID, Short, Numeric, NA, NA, Rank ID proximity based  
+- Type, Text, NA, NA, Default bathroom  
+
+```{code-cell}
+:tags: ["hide-input"]
+import geopandas as gpd
+import folium
+
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi = "https://github.com/mohamadyassin/myst_airc/releases/download/data/PointsofInterest.geojson"
+poi = gpd.read_file(poi)
+if poi.crs != "EPSG:3857":
+    poi = poi.to_crs(epsg=3857)
+
+poi_0 = poi[poi['Name'].isin(['Security', 'Sky Ride Tower'])]
+poi_1 = poi[poi['Name'].isin(['Smoking Area'])]
+poi_2 = poi[poi['Name'].isin(['Disables Parking', 'VIP Parking', 'Park Entrance'])]
+poi_3 = poi[poi['Name'].isin(['Guest Services / Lost & Found', 'Sea Pixles', 'Reservations'])]
+
+poi_0.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-circle-exclamation" style="color:red; background-color: white;  font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_1.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-smoking" style="color:white; background-color:blue; border: 2px solid red; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_2.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-car-side" style="color:blue; background-color:white; border: 2px solid blue; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+poi_3.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-question" style="color: yellow; background-color:green; border: 3px solid purple; font-size:20px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+events = "https://github.com/mohamadyassin/myst_airc/releases/download/data/StadiumsandEncounters.geojson"
+events = gpd.read_file(events)
+if events.crs != "EPSG:3857":
+    events = events.to_crs(epsg=3857)
+
+events.explore(m=m,
+    style_kwds={"color": "pink", "weight": 3, "fill_opacity": 0.3},
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+restroom = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Restrooms.geojson"
+restroom = gpd.read_file(restroom)
+if restroom.crs != "EPSG:3857":
+    restroom = restroom.to_crs(epsg=3857)
+
+restroom.explore(m=m,
+    marker_type="marker",
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-restroom" style="color: black; background-color:blue; border: 3px solid blue; font-size:12px"></i>')),
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+nodes = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Nodes.geojson"
+nodes = gpd.read_file(nodes)
+if nodes.crs != "EPSG:3857":
+    nodes = nodes.to_crs(epsg=3857)
+
+nodes.explore(m=m,
+    marker_kwds={
+        "radius": 6,
+        "fill": True,
+        "fillColor": "yellow",
+        "color": "red",
+        "weight": 2,
+    },
+    name="Your Points Layer",
+    tiles="Esri.WorldImagery",
+    zoom_start=17  
+)
+
+m
+```
+
 
 - 11 mapped (likely more in reality)
 - Limited attributes for this study
