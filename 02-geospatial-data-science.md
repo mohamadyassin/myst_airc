@@ -1,7 +1,25 @@
 ---
-title: Geospatial Data Science
-author: Mohamad Yassin
-date: 2022-11-19
+title: Geospatial Data Science 🗺
+subject:  Story Map
+subtitle: A case study in modern geodatabase
+short_title: Geospatial Data Science
+authors:
+  - name: Mohamad Yassin
+    affiliations:
+      - AIRC
+    email: mohamadyassin.us@gmail.com
+license: CC-BY-4.0
+keywords: geostpatial, data science, database, gis
+abstract: |
+  This is a story map about a school case study for the modern use of geospatial database. This article presents a concenptual solution for creating geospatial apps for a theme park.
+kernelspec:
+  name: python3
+  display_name: Python 3
+exports:
+  - format: docx
+  - format: pdf
+    template: volcanica
+    article_type: Report
 ---
 
 # Geospatial Data Science  
