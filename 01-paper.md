@@ -630,7 +630,7 @@ if fnb.crs != "EPSG:3857":
 
 fnb.explore(m=m,
     marker_type="marker",
-    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-utensils" style="color:yellow; background-color:green; border: 3px solid blue;  font-size:12px"></i>')),
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-cutlery" style="color:yellow; background-color:green; border: 3px solid blue;  font-size:12px"></i>')),
     tiles="Esri.WorldImagery",
     zoom_start=17  
 )
