@@ -585,11 +585,14 @@ import geopandas as gpd
 import folium
 
 # Start from Walkways base
-walkways = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
-walkways = gpd.read_file(walkways).to_crs(epsg=3857)
 
-m = walkways.explore(
-    style_kwds={"color": "lime", "weight": 0.1, "fillOpacity": 0.1},
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
+
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
     tiles="Esri.WorldImagery",
     zoom_start=17  
 )
@@ -630,13 +633,13 @@ import geopandas as gpd
 import folium
 
 # Load Walkways base layer
-walkways = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
-walkways = gpd.read_file(walkways)
-if walkways.crs != "EPSG:3857":
-    walkways = walkways.to_crs(epsg=3857)
+url = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Walkways.geojson"
+gdf = gpd.read_file(url)
+if gdf.crs != "EPSG:3857":
+    gdf = gdf.to_crs(epsg=3857)
 
-m = walkways.explore(
-    style_kwds={"color": "lime", "weight": 0.1, "fillOpacity": 0.1},
+m = gdf.explore(
+    style_kwds={"color": "lime", "weight": 6},
     tiles="Esri.WorldImagery",
     zoom_start=17  
 )
