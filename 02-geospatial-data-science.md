@@ -595,7 +595,7 @@ m = walkways.explore(
 )
 
 # Load rides layer
-rides = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Rides.geojson"
+rides = "https://github.com/mohamadyassin/myst_airc/releases/download/data/Rides_JSON.geojson"
 rides = gpd.read_file(rides).to_crs(epsg=3857)
 
 rides.explore(m=m,
@@ -642,7 +642,7 @@ m = walkways.explore(
 )
 
 # Load Food & Beverage layer
-fnb = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FnB.geojson"
+fnb = "https://github.com/mohamadyassin/myst_airc/releases/download/data/FoodandBeverage.geojson"
 fnb = gpd.read_file(fnb)
 if fnb.crs != "EPSG:3857":
     fnb = fnb.to_crs(epsg=3857)
