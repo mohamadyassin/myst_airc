@@ -603,7 +603,7 @@ rides = gpd.read_file(rides).to_crs(epsg=3857)
 
 rides.explore(m=m,
     marker_type="marker",
-    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-rocket" style="color:orange; background-color:white; border: 2px solid black; font-size:20px"></i>'))
+    marker_kwds=dict(icon=folium.DivIcon(html='<i class="fa-solid fa-rocket" style="color:hotpink; background-color:white; border: 2px solid black; font-size:20px"></i>'))
 )
 
 m
